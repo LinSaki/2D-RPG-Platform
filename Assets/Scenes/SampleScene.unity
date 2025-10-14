@@ -486,6 +486,7 @@ GameObject:
   - component: {fileID: 1473853012}
   - component: {fileID: 1473853011}
   - component: {fileID: 1473853014}
+  - component: {fileID: 1473853015}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -508,7 +509,7 @@ Rigidbody2D:
   m_Mass: 1
   m_LinearDamping: 0
   m_AngularDamping: 0.05
-  m_GravityScale: 3
+  m_GravityScale: 5
   m_Material: {fileID: 6200000, guid: 02d08fa8c3e0e9a44bffb1ea917a88da, type: 2}
   m_IncludeLayers:
     serializedVersion: 2
@@ -626,6 +627,23 @@ CircleCollider2D:
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
   m_Radius: 0.5
+--- !u!114 &1473853015
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473853010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2896e5c44772f814e90eba49feb9e87c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rb: {fileID: 1473853011}
+  xInput: 0
+  moveSpeed: 3.5
+  playerName: Chai
+  currentHp: 100
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
