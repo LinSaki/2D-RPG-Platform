@@ -5,7 +5,8 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
 
     private Rigidbody2D rb;
     private float xInput;
-    [SerializeField]private float moveSpeed = 3.5f;
+    [SerializeField] private float moveSpeed = 3.5f;
+    [SerializeField] private float jumpForce = 8.0f;
 
     private string playerName = "Chai";
     private int currentHp = 100;
@@ -23,7 +24,20 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
 
     private void Update()
     {
+        HandleInput();
+        HandleMovement();
+    }
+
+    private void HandleInput()
+    {
         xInput = Input.GetAxisRaw("Horizontal");
+
+        if (Input.GetKeyDown(KeyCode.Space) || (Input.GetKeyDown(KeyCode.UpArrow)))
+            Jump();
+    }
+
+    private void HandleMovement()
+    {
         rb.linearVelocity = new Vector2(xInput * moveSpeed, rb.linearVelocity.y);
     }
 
@@ -31,4 +45,10 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
     {
         Debug.Log("Player name is: " + playerName);
     }
+
+    private void Jump()
+    {
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+    }
+
 }
