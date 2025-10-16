@@ -17,11 +17,6 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
         rb = GetComponent<Rigidbody2D>();
     }
 
-    private void Start()
-    {
-        
-    }
-
     private void Update()
     {
         HandleInput();
