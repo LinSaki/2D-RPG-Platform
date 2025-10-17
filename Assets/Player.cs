@@ -1,4 +1,5 @@
 using System;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Player : MonoBehaviour //Need base class MonoBehaviour to attach scripts as a component onto an object
@@ -10,6 +11,7 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
     private float xInput;
     [SerializeField] private float moveSpeed = 3.5f;
     [SerializeField] private float jumpForce = 8.0f;
+    [SerializeField] private bool isFacingRight = true;
 
     private string playerName = "Chai";
     private int currentHp = 100;
@@ -26,6 +28,7 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
         HandleInput();
         HandleMovement();
         HandleAnimations();
+        HandleFlip();
     }
 
     private void HandleAnimations()
@@ -55,6 +58,21 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
     private void Jump()
     {
         rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+    }
+
+    private void HandleFlip()
+    {
+        if(rb.linearVelocityX > 0 && isFacingRight == false)
+                Flip();
+        else if (rb.linearVelocityX < 0 && isFacingRight == true)
+            Flip();
+
+    }
+    //[ContextMenu("Flip")] //can test method in Unity editor
+    private void Flip()
+    {
+        transform.Rotate(0, 180, 0);
+        isFacingRight = !isFacingRight;
     }
 
 }
