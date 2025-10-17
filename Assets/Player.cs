@@ -1,5 +1,3 @@
-using System;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class Player : MonoBehaviour //Need base class MonoBehaviour to attach scripts as a component onto an object
@@ -40,8 +38,9 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
 
     private void HandleAnimations()
     {
-        bool isMoving = rb.linearVelocityX != 0;
-        animator.SetBool("isMoving", isMoving); //requires exact same name of parameter
+        animator.SetFloat("xVelocity", rb.linearVelocity.x);
+        animator.SetFloat("yVelocity", rb.linearVelocity.y);
+        animator.SetBool("isGrounded", isGrounded); //requires exact same name of parameter
     }
 
     private void HandleInput()
@@ -75,8 +74,8 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
 
     private void HandleFlip()
     {
-        if(rb.linearVelocityX > 0 && isFacingRight == false)
-                Flip();
+        if (rb.linearVelocityX > 0 && isFacingRight == false)
+            Flip();
         else if (rb.linearVelocityX < 0 && isFacingRight == true)
             Flip();
 
