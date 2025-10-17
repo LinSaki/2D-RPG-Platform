@@ -8,13 +8,19 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
     private Rigidbody2D rb;
     private Animator animator;
 
+    [Header("Movement details")]
     private float xInput;
     [SerializeField] private float moveSpeed = 3.5f;
     [SerializeField] private float jumpForce = 8.0f;
-    [SerializeField] private bool isFacingRight = true;
+    private bool isFacingRight = true;
 
     private string playerName = "Chai";
     private int currentHp = 100;
+
+    [Header("Collision details")]
+    [SerializeField] private float groundCheckDistance;
+    private bool isGrounded;
+    [SerializeField] private LayerMask whatIsGround; // need visible to assign
 
     private void Awake()
     {
@@ -25,6 +31,7 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
 
     private void Update()
     {
+        HandleCollision();
         HandleInput();
         HandleMovement();
         HandleAnimations();
@@ -57,7 +64,13 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
 
     private void Jump()
     {
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+        if (isGrounded)
+            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+    }
+
+    private void HandleCollision()
+    {
+        isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, whatIsGround);
     }
 
     private void HandleFlip()
@@ -73,6 +86,11 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
     {
         transform.Rotate(0, 180, 0);
         isFacingRight = !isFacingRight;
+    }
+
+    private void OnDrawGizmos() //helps us determine the distance from the transform.position
+    {
+        Gizmos.DrawLine(transform.position, transform.position + new Vector3(0, -groundCheckDistance));
     }
 
 }
