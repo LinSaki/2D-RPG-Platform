@@ -1,9 +1,12 @@
+using System;
 using UnityEngine;
 
 public class Player : MonoBehaviour //Need base class MonoBehaviour to attach scripts as a component onto an object
 {
 
     private Rigidbody2D rb;
+    private Animator animator;
+
     private float xInput;
     [SerializeField] private float moveSpeed = 3.5f;
     [SerializeField] private float jumpForce = 8.0f;
@@ -15,12 +18,20 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
     {
         GetPlayerInfo();
         rb = GetComponent<Rigidbody2D>();
+        animator = GetComponentInChildren<Animator>();
     }
 
     private void Update()
     {
         HandleInput();
         HandleMovement();
+        HandleAnimations();
+    }
+
+    private void HandleAnimations()
+    {
+        bool isMoving = rb.linearVelocityX != 0;
+        animator.SetBool("isMoving", isMoving); //requires exact same name of parameter
     }
 
     private void HandleInput()
