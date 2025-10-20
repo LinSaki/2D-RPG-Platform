@@ -11,6 +11,8 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
     [SerializeField] private float moveSpeed = 3.5f;
     [SerializeField] private float jumpForce = 8.0f;
     private bool isFacingRight = true;
+    private bool canMove = true;
+    private bool canJump = true;
 
     private string playerName = "Chai";
     private int currentHp = 100;
@@ -36,6 +38,12 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
         HandleFlip();
     }
 
+    public void EnableMovementAndJump(bool enable)
+    {
+        canMove = enable;
+        canJump = enable;
+    }
+
     private void HandleAnimations()
     {
         animator.SetFloat("xVelocity", rb.linearVelocity.x);
@@ -48,24 +56,39 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
         xInput = Input.GetAxisRaw("Horizontal");
 
         if (Input.GetKeyDown(KeyCode.Space) || (Input.GetKeyDown(KeyCode.UpArrow)))
-            Jump();
+            TryToJump();
+
+        if (Input.GetKeyDown(KeyCode.Mouse0))
+        {
+            TryToAttack();
+        }
     }
 
-    private void HandleMovement()
+    private void TryToAttack()
     {
-        rb.linearVelocity = new Vector2(xInput * moveSpeed, rb.linearVelocity.y);
-    }
+        if (isGrounded)
+            animator.SetTrigger("attack");
+    }   
 
     private void GetPlayerInfo()
     {
         Debug.Log("Player name is: " + playerName);
     }
 
-    private void Jump()
+    private void TryToJump()
     {
-        if (isGrounded)
+        if (isGrounded && canJump)
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
     }
+
+    private void HandleMovement()
+    {
+        if (canMove)
+            rb.linearVelocity = new Vector2(xInput * moveSpeed, rb.linearVelocity.y);
+        else
+            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y); //stops player from moving when moving
+    }
+
 
     private void HandleCollision()
     {
