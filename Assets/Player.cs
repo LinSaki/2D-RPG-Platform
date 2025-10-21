@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Player : MonoBehaviour //Need base class MonoBehaviour to attach scripts as a component onto an object
@@ -5,6 +6,11 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
 
     private Rigidbody2D rb;
     private Animator animator;
+
+    [Header("Attack details")]
+    [SerializeField] private float attackRadius;
+    [SerializeField] private Transform attackPoint;
+    [SerializeField] private LayerMask whatIsEnemy;
 
     [Header("Movement details")]
     private float xInput;
@@ -36,6 +42,16 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
         HandleMovement();
         HandleAnimations();
         HandleFlip();
+    }
+
+    public void DamageEnemies()
+    {
+        Collider2D[] enemyColliders = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, whatIsEnemy);
+
+        foreach (Collider2D enemy in enemyColliders)
+        {
+            enemy.GetComponent<Enemy>().TakeDamage();
+        }
     }
 
     public void EnableMovementAndJump(bool enable)
@@ -113,6 +129,7 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
     private void OnDrawGizmos() //helps us determine the distance from the transform.position
     {
         Gizmos.DrawLine(transform.position, transform.position + new Vector3(0, -groundCheckDistance));
+        Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
     }
 
 }
