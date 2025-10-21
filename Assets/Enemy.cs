@@ -6,7 +6,8 @@ public class Enemy : MonoBehaviour
 
     [SerializeField] private float redColorDuration = 1;
 
-    public float timer;
+    public float currentTimeInGame;
+    public float lastTimeWasDamaged;
 
     private void Awake()
     {
@@ -15,16 +16,23 @@ public class Enemy : MonoBehaviour
 
     private void Update()
     {
-        timer -= Time.deltaTime;
+        ChangeColorIfNeeded();
+    }
 
-        if(timer < 0 && sr.color != Color.white)
-            sr.color = Color.white; 
+    private void ChangeColorIfNeeded()
+    {
+        currentTimeInGame = Time.time;
 
+        if (currentTimeInGame > lastTimeWasDamaged + redColorDuration)
+        {
+            if (sr.color != Color.white)
+                sr.color = Color.white;
+        }
     }
 
     public void TakeDamage()
     {
         sr.color = Color.red;
-        timer = redColorDuration;
+        lastTimeWasDamaged = Time.time;
     }
 }
