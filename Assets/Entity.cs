@@ -1,27 +1,27 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour //Need base class MonoBehaviour to attach scripts as a component onto an object
+public class Entity : MonoBehaviour //Need base class MonoBehaviour to attach scripts as a component onto an object
 {
 
-    private Rigidbody2D rb;
-    private Animator animator;
+    protected Rigidbody2D rb;
+    protected Animator animator;
 
     [Header("Attack details")]
-    [SerializeField] private float attackRadius;
-    [SerializeField] private Transform attackPoint;
-    [SerializeField] private LayerMask whatIsEnemy;
+    [SerializeField] protected float attackRadius;
+    [SerializeField] protected Transform attackPoint;
+    [SerializeField] protected LayerMask whatIsTarget;
 
     [Header("Movement details")]
+    [SerializeField] protected float moveSpeed = 3.5f;
+    [SerializeField] private float jumpForce = 8.0f; //player related
+    protected int facingDir = 1;
+    protected bool canMove = true;
     private float xInput;
-    [SerializeField] private float moveSpeed = 3.5f;
-    [SerializeField] private float jumpForce = 8.0f;
     private bool isFacingRight = true;
-    private bool canMove = true;
     private bool canJump = true;
 
-    private string playerName = "Chai";
-    private int currentHp = 100;
 
     [Header("Collision details")]
     [SerializeField] private float groundCheckDistance;
@@ -30,12 +30,11 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
 
     private void Awake()
     {
-        GetPlayerInfo();
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
     }
 
-    private void Update()
+    protected virtual void Update()
     {
         HandleCollision();
         HandleInput();
@@ -44,14 +43,20 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
         HandleFlip();
     }
 
-    public void DamageEnemies()
+    public void DamageTargets()
     {
-        Collider2D[] enemyColliders = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, whatIsEnemy);
+        Collider2D[] enemyColliders = Physics2D.OverlapCircleAll(attackPoint.position, attackRadius, whatIsTarget);
 
         foreach (Collider2D enemy in enemyColliders)
         {
-            enemy.GetComponent<Enemy>().TakeDamage();
+            Entity entityTarget = enemy.GetComponent<Entity>();
+            entityTarget.TakeDamage();
         }
+    }
+
+    private void TakeDamage()
+    {
+        throw new NotImplementedException();
     }
 
     public void EnableMovementAndJump(bool enable)
@@ -60,7 +65,7 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
         canJump = enable;
     }
 
-    private void HandleAnimations()
+    protected void HandleAnimations()
     {
         animator.SetFloat("xVelocity", rb.linearVelocity.x);
         animator.SetFloat("yVelocity", rb.linearVelocity.y);
@@ -80,16 +85,11 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
         }
     }
 
-    private void TryToAttack()
+    protected virtual void TryToAttack()
     {
         if (isGrounded)
             animator.SetTrigger("attack");
     }   
-
-    private void GetPlayerInfo()
-    {
-        Debug.Log("Player name is: " + playerName);
-    }
 
     private void TryToJump()
     {
@@ -97,7 +97,7 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
             rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
     }
 
-    private void HandleMovement()
+    protected virtual void HandleMovement()
     {
         if (canMove)
             rb.linearVelocity = new Vector2(xInput * moveSpeed, rb.linearVelocity.y);
@@ -106,12 +106,12 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
     }
 
 
-    private void HandleCollision()
+    protected virtual void HandleCollision()
     {
         isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, whatIsGround);
     }
 
-    private void HandleFlip()
+    protected void HandleFlip()
     {
         if (rb.linearVelocityX > 0 && isFacingRight == false)
             Flip();
@@ -124,6 +124,7 @@ public class Player : MonoBehaviour //Need base class MonoBehaviour to attach sc
     {
         transform.Rotate(0, 180, 0);
         isFacingRight = !isFacingRight;
+        facingDir *= -1; //set x input to opposite after flipping
     }
 
     private void OnDrawGizmos() //helps us determine the distance from the transform.position
