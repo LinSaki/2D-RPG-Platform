@@ -56,7 +56,7 @@ public class Entity : MonoBehaviour //Need base class MonoBehaviour to attach sc
 
     private void TakeDamage()
     {
-        throw new NotImplementedException();
+        //throw new NotImplementedException();
     }
 
     public void EnableMovementAndJump(bool enable)
@@ -81,11 +81,11 @@ public class Entity : MonoBehaviour //Need base class MonoBehaviour to attach sc
 
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
-            TryToAttack();
+            HandleAttack();
         }
     }
 
-    protected virtual void TryToAttack()
+    protected virtual void HandleAttack()
     {
         if (isGrounded)
             animator.SetTrigger("attack");
