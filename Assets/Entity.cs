@@ -7,6 +7,11 @@ public class Entity : MonoBehaviour //Need base class MonoBehaviour to attach sc
 
     protected Rigidbody2D rb;
     protected Animator animator;
+    protected Collider2D col;
+
+    [Header("Health")]
+    [SerializeField] private int maxHealth = 1;
+    [SerializeField] private int currentHealth;
 
     [Header("Attack details")]
     [SerializeField] protected float attackRadius;
@@ -32,6 +37,9 @@ public class Entity : MonoBehaviour //Need base class MonoBehaviour to attach sc
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
+        col = GetComponent<Collider2D>();
+
+        currentHealth = maxHealth;
     }
 
     protected virtual void Update()
@@ -56,7 +64,21 @@ public class Entity : MonoBehaviour //Need base class MonoBehaviour to attach sc
 
     private void TakeDamage()
     {
-        //throw new NotImplementedException();
+        currentHealth -= 1;
+
+        if (currentHealth < 0) 
+        {
+            Die();
+        }
+    }
+
+    protected virtual void Die()
+    {
+        animator.enabled = false;
+        col.enabled = false;
+
+        rb.gravityScale = 12; //make character bounce lighter when dying
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 15);
     }
 
     public void EnableMovementAndJump(bool enable)

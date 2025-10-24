@@ -751,6 +751,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a2eee1a37d4368249846e64620109193, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 1
+  currentHealth: 0
   attackRadius: 1
   attackPoint: {fileID: 1667466589}
   whatIsTarget:
@@ -771,7 +773,7 @@ Transform:
   m_GameObject: {fileID: 1158552510}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.27, y: -4.28, z: 0}
+  m_LocalPosition: {x: -6.1, y: -4.28, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -918,6 +920,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2896e5c44772f814e90eba49feb9e87c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  maxHealth: 10
+  currentHealth: 0
   attackRadius: 0.8
   attackPoint: {fileID: 2043104026}
   whatIsTarget:
