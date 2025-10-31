@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 
 public class Entity : MonoBehaviour //Need base class MonoBehaviour to attach scripts as a component onto an object
@@ -8,10 +8,14 @@ public class Entity : MonoBehaviour //Need base class MonoBehaviour to attach sc
     protected Rigidbody2D rb;
     protected Animator animator;
     protected Collider2D col;
+    protected SpriteRenderer sr;
 
     [Header("Health")]
     [SerializeField] private int maxHealth = 1;
     [SerializeField] private int currentHealth;
+    [SerializeField] private Material damageMaterial;
+    [SerializeField] private float damageFeedbackDuration = .1f;
+    private Coroutine damageFeedbackCoroutine;
 
     [Header("Attack details")]
     [SerializeField] protected float attackRadius;
@@ -38,6 +42,7 @@ public class Entity : MonoBehaviour //Need base class MonoBehaviour to attach sc
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
         col = GetComponent<Collider2D>();
+        sr = GetComponentInChildren<SpriteRenderer>();
 
         currentHealth = maxHealth;
     }
@@ -65,11 +70,31 @@ public class Entity : MonoBehaviour //Need base class MonoBehaviour to attach sc
     private void TakeDamage()
     {
         currentHealth -= 1;
+        PlayDamageFeedback();
 
-        if (currentHealth < 0) 
+        if (currentHealth < 0)
         {
             Die();
         }
+    }
+
+    private void PlayDamageFeedback()
+    {
+        if (damageFeedbackCoroutine != null)
+            StopCoroutine(damageFeedbackCoroutine);
+
+        StartCoroutine(DamageFeedbackCo());
+    }
+
+    private IEnumerator DamageFeedbackCo()
+    {
+        Material originalMat = sr.material;
+
+        sr.material = damageMaterial;
+
+        yield return new WaitForSeconds(damageFeedbackDuration);
+
+        sr.material = originalMat;
     }
 
     protected virtual void Die()
