@@ -28,7 +28,7 @@ public class Entity : MonoBehaviour //Need base class MonoBehaviour to attach sc
     protected int facingDir = 1;
     protected bool canMove = true;
     private float xInput;
-    private bool isFacingRight = true;
+    protected bool isFacingRight = true;
     private bool canJump = true;
 
 
@@ -158,7 +158,7 @@ public class Entity : MonoBehaviour //Need base class MonoBehaviour to attach sc
         isGrounded = Physics2D.Raycast(transform.position, Vector2.down, groundCheckDistance, whatIsGround);
     }
 
-    protected void HandleFlip()
+    protected virtual void HandleFlip()
     {
         if (rb.linearVelocityX > 0 && isFacingRight == false)
             Flip();
@@ -167,7 +167,7 @@ public class Entity : MonoBehaviour //Need base class MonoBehaviour to attach sc
 
     }
     //[ContextMenu("Flip")] //can test method in Unity editor
-    private void Flip()
+    protected void Flip()
     {
         transform.Rotate(0, 180, 0);
         isFacingRight = !isFacingRight;
@@ -177,7 +177,9 @@ public class Entity : MonoBehaviour //Need base class MonoBehaviour to attach sc
     private void OnDrawGizmos() //helps us determine the distance from the transform.position
     {
         Gizmos.DrawLine(transform.position, transform.position + new Vector3(0, -groundCheckDistance));
-        Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
+        
+        if(attackPoint != null)
+            Gizmos.DrawWireSphere(attackPoint.position, attackRadius);
     }
 
 }
