@@ -136,7 +136,7 @@ public class Entity : MonoBehaviour //Need base class MonoBehaviour to attach sc
 
     }
     //[ContextMenu("Flip")] //can test method in Unity editor
-    protected void Flip()
+    public void Flip()
     {
         transform.Rotate(0, 180, 0);
         isFacingRight = !isFacingRight;
