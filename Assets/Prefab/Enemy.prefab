@@ -62,6 +62,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   moveSpeed: 2
+  enemyAttackSound: {fileID: 8300000, guid: 6eea3a331edbb994f937cf729fa72ec0, type: 3}
 --- !u!50 &1040738151626006223
 Rigidbody2D:
   serializedVersion: 5

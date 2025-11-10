@@ -8,6 +8,9 @@ public class Player : Entity
     private float xInput;
     private bool canJump = true;
 
+    [Header("Sound details")]
+    public AudioClip playerAttackSound;
+
     protected override void Update()
     {
         base.Update();
@@ -23,6 +26,7 @@ public class Player : Entity
         if (Input.GetKeyDown(KeyCode.Mouse0))
         {
             HandleAttack();
+            GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>().PlayOneShot(playerAttackSound);
         }
     }
     protected override void HandleMovement()

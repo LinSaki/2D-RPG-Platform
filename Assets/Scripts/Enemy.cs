@@ -9,6 +9,9 @@ public class Enemy : Entity
     [Header("Movement details")]
     [SerializeField] protected float moveSpeed = 3.5f;
 
+    [Header("Sound details")]
+    public AudioClip enemyAttackSound;
+
     protected override void Update()
     {
         base.Update();
@@ -18,7 +21,10 @@ public class Enemy : Entity
     protected override void HandleAttack()
     {
         if (playerDetected)
+        {
             animator.SetTrigger("attack");
+            GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>().PlayOneShot(enemyAttackSound);
+        }
     }
 
     protected override void HandleMovement()
