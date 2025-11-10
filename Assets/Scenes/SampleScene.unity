@@ -998,12 +998,11 @@ MonoBehaviour:
   whatIsTarget:
     serializedVersion: 2
     m_Bits: 256
-  moveSpeed: 2
-  jumpForce: 8
   groundCheckDistance: 1.2
   whatIsGround:
     serializedVersion: 2
     m_Bits: 64
+  moveSpeed: 2
 --- !u!4 &1158552514
 Transform:
   m_ObjectHideFlags: 0
@@ -1268,9 +1267,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1473853013}
-  - component: {fileID: 1473853015}
   - component: {fileID: 1473853011}
   - component: {fileID: 1473853016}
+  - component: {fileID: 1473853017}
   m_Layer: 8
   m_Name: Player
   m_TagString: Untagged
@@ -1322,33 +1321,6 @@ Transform:
   - {fileID: 2043104026}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1473853015
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1473853010}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2896e5c44772f814e90eba49feb9e87c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxHealth: 10
-  currentHealth: 0
-  damageMaterial: {fileID: 2100000, guid: 717215c01217b344288c937306768c4a, type: 2}
-  damageFeedbackDuration: 0.2
-  attackRadius: 0.8
-  attackPoint: {fileID: 2043104026}
-  whatIsTarget:
-    serializedVersion: 2
-    m_Bits: 128
-  moveSpeed: 8
-  jumpForce: 12
-  groundCheckDistance: 1.4
-  whatIsGround:
-    serializedVersion: 2
-    m_Bits: 64
 --- !u!70 &1473853016
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1386,6 +1358,33 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: -0.3}
   m_Size: {x: 0.78714657, y: 2.0887656}
   m_Direction: 0
+--- !u!114 &1473853017
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1473853010}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cc5fb24e850876f45b1e7e0292931be4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealth: 10
+  currentHealth: 0
+  damageMaterial: {fileID: 2100000, guid: 717215c01217b344288c937306768c4a, type: 2}
+  damageFeedbackDuration: 0.1
+  attackRadius: 1
+  attackPoint: {fileID: 2043104026}
+  whatIsTarget:
+    serializedVersion: 2
+    m_Bits: 128
+  groundCheckDistance: 1.45
+  whatIsGround:
+    serializedVersion: 2
+    m_Bits: 64
+  moveSpeed: 3.5
+  jumpForce: 8
 --- !u!1 &1515515541
 GameObject:
   m_ObjectHideFlags: 0
@@ -1506,13 +1505,10 @@ MonoBehaviour:
   whatIsTarget:
     serializedVersion: 2
     m_Bits: 0
-  moveSpeed: 3.5
-  jumpForce: 8
   groundCheckDistance: 0
   whatIsGround:
     serializedVersion: 2
     m_Bits: 0
-  player: {fileID: 1473853013}
 --- !u!1 &1612427402
 GameObject:
   m_ObjectHideFlags: 0

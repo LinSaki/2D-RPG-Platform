@@ -67,7 +67,7 @@ public class Entity : MonoBehaviour //Need base class MonoBehaviour to attach sc
         currentHealth -= 1;
         PlayDamageFeedback();
 
-        if (currentHealth < 0)
+        if (currentHealth == 0)
             Die();
     }
 
