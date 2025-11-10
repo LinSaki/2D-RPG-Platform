@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class Entity : MonoBehaviour //Need base class MonoBehaviour to attach scripts as a component onto an object
 {
-
     protected Rigidbody2D rb;
     protected Animator animator;
     protected Collider2D col;

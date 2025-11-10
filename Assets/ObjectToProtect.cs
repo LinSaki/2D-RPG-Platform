@@ -8,6 +8,7 @@ public class ObjectToProtect : Entity
     {
         base.Awake();
         player = FindFirstObjectByType<Player>().transform;
+
     }
 
     protected override void Update()
@@ -17,7 +18,7 @@ public class ObjectToProtect : Entity
 
     protected override void HandleFlip()
     {
-        if (player != null)
+        if (player == null)
             return;
 
         if (player.transform.position.x > transform.position.x && isFacingRight == false)
