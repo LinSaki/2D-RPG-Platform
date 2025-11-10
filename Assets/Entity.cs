@@ -22,22 +22,18 @@ public class Entity : MonoBehaviour //Need base class MonoBehaviour to attach sc
     [SerializeField] protected Transform attackPoint;
     [SerializeField] protected LayerMask whatIsTarget;
 
-    [Header("Movement details")]
-    [SerializeField] protected float moveSpeed = 3.5f;
-    [SerializeField] private float jumpForce = 8.0f; //player related
-    protected int facingDir = 1;
-    protected bool canMove = true;
-    private float xInput;
-    protected bool isFacingRight = true;
-    private bool canJump = true;
-
 
     [Header("Collision details")]
     [SerializeField] private float groundCheckDistance;
-    private bool isGrounded;
+    protected bool isGrounded;
     [SerializeField] private LayerMask whatIsGround; // need visible to assign
 
-    private void Awake()
+    //Facing Directionn Details
+    protected int facingDir = 1;
+    protected bool canMove = true;
+    protected bool isFacingRight = true;
+
+    protected virtual void Awake()
     {
         rb = GetComponent<Rigidbody2D>();
         animator = GetComponentInChildren<Animator>();
@@ -50,7 +46,6 @@ public class Entity : MonoBehaviour //Need base class MonoBehaviour to attach sc
     protected virtual void Update()
     {
         HandleCollision();
-        HandleInput();
         HandleMovement();
         HandleAnimations();
         HandleFlip();
@@ -73,9 +68,18 @@ public class Entity : MonoBehaviour //Need base class MonoBehaviour to attach sc
         PlayDamageFeedback();
 
         if (currentHealth < 0)
-        {
             Die();
-        }
+    }
+
+    protected virtual void Die()
+    {
+        animator.enabled = false;
+        col.enabled = false;
+
+        rb.gravityScale = 12; //make character bounce lighter when dying
+        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 15);
+
+        Destroy(gameObject, 3); //delay of 3 seconds after obj falls
     }
 
     private void PlayDamageFeedback()
@@ -97,19 +101,9 @@ public class Entity : MonoBehaviour //Need base class MonoBehaviour to attach sc
         sr.material = originalMat;
     }
 
-    protected virtual void Die()
-    {
-        animator.enabled = false;
-        col.enabled = false;
-
-        rb.gravityScale = 12; //make character bounce lighter when dying
-        rb.linearVelocity = new Vector2(rb.linearVelocity.x, 15);
-    }
-
-    public void EnableMovementAndJump(bool enable)
+    public virtual void EnableMovement(bool enable)
     {
         canMove = enable;
-        canJump = enable;
     }
 
     protected void HandleAnimations()
@@ -119,39 +113,15 @@ public class Entity : MonoBehaviour //Need base class MonoBehaviour to attach sc
         animator.SetBool("isGrounded", isGrounded); //requires exact same name of parameter
     }
 
-    private void HandleInput()
-    {
-        xInput = Input.GetAxisRaw("Horizontal");
-
-        if (Input.GetKeyDown(KeyCode.Space) || (Input.GetKeyDown(KeyCode.UpArrow)))
-            TryToJump();
-
-        if (Input.GetKeyDown(KeyCode.Mouse0))
-        {
-            HandleAttack();
-        }
-    }
-
     protected virtual void HandleAttack()
     {
         if (isGrounded)
             animator.SetTrigger("attack");
     }   
 
-    private void TryToJump()
-    {
-        if (isGrounded && canJump)
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
-    }
-
     protected virtual void HandleMovement()
     {
-        if (canMove)
-            rb.linearVelocity = new Vector2(xInput * moveSpeed, rb.linearVelocity.y);
-        else
-            rb.linearVelocity = new Vector2(0, rb.linearVelocity.y); //stops player from moving when moving
     }
-
 
     protected virtual void HandleCollision()
     {
