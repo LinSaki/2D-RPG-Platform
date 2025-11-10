@@ -26,4 +26,12 @@ public class ObjectToProtect : Entity
         else if (player.transform.position.x < transform.position.x && isFacingRight == true)
             Flip();
     }
+
+    protected override void Die()
+    {
+        base.Die();
+        UI.instance.EnableGameOverUI();
+    }
+
+
 }
