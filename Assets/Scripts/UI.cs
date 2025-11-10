@@ -11,21 +11,28 @@ public class UI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI killCountText;
 
     private int killCount;
+    private float timer = 0f;
+    private bool isGameOver = false;
 
     private void Awake()
     {
         instance = this;
-        Time.timeScale = 1; //reset timer speed by 100%
+        Time.timeScale = 1; //reset timer to normal
     }
 
     private void Update()
     {
-        timerText.text = Time.time.ToString("F2") + "s"; //F2 = shows 2 numbers after the decimal
+
+        if (!isGameOver)
+            timer += Time.deltaTime;
+
+        timerText.text = timer.ToString("F2") + "s"; //F2 = shows 2 numbers after the decimal
     }
 
     public void EnableGameOverUI()
     {
-        Time.timeScale = 0.5f; //stops timer
+        isGameOver = true;
+        Time.timeScale = 0.5f; //slows down timer
         gameOverUI.SetActive(true);
     }
 
