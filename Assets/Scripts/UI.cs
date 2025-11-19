@@ -17,15 +17,17 @@ public class UI : MonoBehaviour
 
     private void Awake()
     {
+        #if UNITY_ANDROID || UNITY_IOS
+            mobileControlUI.SetActive(true);
+        #else
+                mobileControlUI.SetActive(false);
+        #endif
         instance = this;
         Time.timeScale = 1; //reset timer to normal
     }
 
     private void Update()
     {
-        #if UNITY_ANDROID || UNITY_IOS
-             mobileControlUI.setActive(true);
-        #endif
         if (!isGameOver)
             timer += Time.deltaTime;
 

@@ -14,20 +14,39 @@ public class Player : Entity
     protected override void Update()
     {
         base.Update();
-        HandleInput();
+        HandleKeyboardInput();
     }
-    private void HandleInput()
+
+    private void HandleKeyboardInput()
     {
         xInput = Input.GetAxisRaw("Horizontal");
 
-        if (Input.GetKeyDown(KeyCode.Space) || (Input.GetKeyDown(KeyCode.UpArrow)))
+        // Jump (PC)
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
             TryToJump();
 
-        if (Input.GetKeyDown(KeyCode.Mouse0) || (Input.GetKeyDown(KeyCode.L)))
+        // Attack (PC)
+        if (Input.GetKeyDown(KeyCode.L))
         {
             HandleAttack();
             GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>().PlayOneShot(playerAttackSound);
         }
+    }
+
+    // For Mobile UI
+    public void PressLeft() { xInput = -1; }
+    public void PressRight() { xInput = 1; }
+    public void StopMove() { xInput = 0; }
+
+    public void PressJump()
+    {
+        TryToJump();
+    }
+
+    public void PressAttack()
+    {
+        HandleAttack();
+        GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>().PlayOneShot(playerAttackSound);
     }
     protected override void HandleMovement()
     {
