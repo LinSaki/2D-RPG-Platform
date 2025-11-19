@@ -9,6 +9,7 @@ public class UI : MonoBehaviour
     [Space]
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI killCountText;
+    [SerializeField] private GameObject mobileControlUI;
 
     private int killCount;
     private float timer = 0f;
@@ -22,7 +23,9 @@ public class UI : MonoBehaviour
 
     private void Update()
     {
-
+        #if UNITY_ANDROID || UNITY_IOS
+             mobileControlUI.setActive(true);
+        #endif
         if (!isGameOver)
             timer += Time.deltaTime;
 
