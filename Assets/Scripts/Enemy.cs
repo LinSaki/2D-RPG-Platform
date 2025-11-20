@@ -23,7 +23,7 @@ public class Enemy : Entity
         if (playerDetected)
         {
             animator.SetTrigger("attack");
-            GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>().PlayOneShot(enemyAttackSound);
+            //GameObject.FindGameObjectWithTag("MainCamera").GetComponent<AudioSource>().PlayOneShot(enemyAttackSound);
         }
     }
 

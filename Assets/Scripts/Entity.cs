@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using TMPro;
 
 public class Entity : MonoBehaviour //Need base class MonoBehaviour to attach scripts as a component onto an object
 {
@@ -11,9 +12,10 @@ public class Entity : MonoBehaviour //Need base class MonoBehaviour to attach sc
 
     [Header("Health")]
     [SerializeField] private int maxHealth = 1;
-    [SerializeField] private int currentHealth;
+    [SerializeField] protected int currentHealth;
     [SerializeField] private Material damageMaterial;
     [SerializeField] private float damageFeedbackDuration = .1f;
+    [SerializeField] protected TextMeshPro healthText;
     private Coroutine damageFeedbackCoroutine;
 
     [Header("Attack details")]
@@ -61,7 +63,7 @@ public class Entity : MonoBehaviour //Need base class MonoBehaviour to attach sc
         }
     }
 
-    private void TakeDamage()
+    protected virtual void TakeDamage()
     {
         currentHealth -= 1;
         PlayDamageFeedback();

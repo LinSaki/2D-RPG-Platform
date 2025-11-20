@@ -7,6 +7,7 @@ public class ObjectToProtect : Entity
     protected override void Awake()
     {
         base.Awake();
+        healthText.text = currentHealth.ToString();
         player = FindFirstObjectByType<Player>().transform;
 
     }
@@ -31,6 +32,12 @@ public class ObjectToProtect : Entity
     {
         base.Die();
         UI.instance.EnableGameOverUI();
+    }
+
+    protected override void TakeDamage()
+    {
+        base.TakeDamage();
+        healthText.text = currentHealth.ToString();
     }
 
 

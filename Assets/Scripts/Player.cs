@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Player : Entity
 {
@@ -11,6 +12,12 @@ public class Player : Entity
     [Header("Sound details")]
     public AudioClip playerAttackSound;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        healthText.text = currentHealth.ToString();
+    }
+
     protected override void Update()
     {
         base.Update();
@@ -19,7 +26,15 @@ public class Player : Entity
 
     private void HandleKeyboardInput()
     {
+#if UNITY_ANDROID || UNITY_IOS
+        float keyboardX = Input.GetAxisRaw("Horizontal");
+        // Only override mobile input if keyboard is pressed
+        if (keyboardX != 0)
+            xInput = keyboardX;
+#else
         xInput = Input.GetAxisRaw("Horizontal");
+#endif
+
 
         // Jump (PC)
         if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.UpArrow))
@@ -72,5 +87,11 @@ public class Player : Entity
     {
         base.Die();
         UI.instance.EnableGameOverUI();
+    }
+
+    protected override void TakeDamage()
+    {
+        base.TakeDamage();
+        healthText.text = currentHealth.ToString();
     }
 }
