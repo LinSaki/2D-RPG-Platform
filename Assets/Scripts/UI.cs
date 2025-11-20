@@ -10,6 +10,7 @@ public class UI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI timerText;
     [SerializeField] private TextMeshProUGUI killCountText;
     [SerializeField] private GameObject mobileControlUI;
+    [SerializeField] private GameObject startPanel;
 
     private int killCount;
     private float timer = 0f;
@@ -23,7 +24,7 @@ public class UI : MonoBehaviour
                 mobileControlUI.SetActive(false);
         #endif
         instance = this;
-        Time.timeScale = 1; //reset timer to normal
+        Time.timeScale = 0; //pause game
     }
 
     private void Update()
@@ -32,6 +33,12 @@ public class UI : MonoBehaviour
             timer += Time.deltaTime;
 
         timerText.text = timer.ToString("F2") + "s"; //F2 = shows 2 numbers after the decimal
+    }
+
+    public void StartGame()
+    {
+        Time.timeScale = 1; // resume the game
+        startPanel.SetActive(false); 
     }
 
     public void EnableGameOverUI()
